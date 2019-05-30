@@ -1,0 +1,16 @@
+version: '3.4'
+
+services:
+  backtestingapp:
+    image: "rubix/trainer:${DOCKER_TAG:-latest}"
+    container_name: "trainer"
+    # network_mode: host  only work for linux
+    build:
+      context: trainer
+      labels:
+        - "build.number=${BUILD_NUMBER:-no-build-number}"
+        - "build.commit=${GIT_COMMIT_HASH:-no-commit-hash}"
+    ports:
+      - "8888:8888"
+    volumes:
+     - ./trainer:/trainer

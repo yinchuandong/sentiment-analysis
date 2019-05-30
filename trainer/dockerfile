@@ -1,0 +1,21 @@
+FROM continuumio/miniconda as base
+
+# RUN apt-get update
+# RUN apt-get -y install gcc
+
+RUN conda install jupyter -y
+
+# RUN apt-get install libgl1-mesa-glx -y
+
+ADD ./requirements.txt /trainer/requirements.txt
+RUN pip install -r /trainer/requirements.txt
+ADD ./rubixml /rubixml
+RUN pip install /trainer
+
+
+
+FROM base as dev
+
+COPY . /trainer
+WORKDIR /trainer
+ENTRYPOINT jupyter lab --port=8888 --no-browser --ip=0.0.0.0 --allow-root --NotebookApp.token=
