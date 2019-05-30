@@ -72,9 +72,9 @@ class TextCNN(nn.Module):
         x = self.dropout(x)  # (N, len(Ks)*Co)
         logit = self.fc1(x)  # (N, C)
         if self.class_num > 1:
-            y_pred = F.softmax(logit)
+            y_pred = torch.softmax(logit)
         else:
-            y_pred = F.sigmoid(logit)
+            y_pred = torch.sigmoid(logit)
         return y_pred
 
 
@@ -110,6 +110,8 @@ class TextCNNModel(object):
             min(train_words), max(train_words), str(Counter(train_labels))))
         print('dev: min words={}, max words={}, counter={}'.format(
             min(dev_words), max(dev_words), str(Counter(dev_labels))))
+        print('----------------------------------------------------------')
+        print('\n')
 
         return train, dev
 
@@ -255,7 +257,7 @@ model.predict_prob(sentences)
 
 # %%
 print('-----------------------------------------------------------------------')
-# model.use_best_model()
+model.use_best_model()
 sentences = ['how',
              'Wow... Loved this place.',
              'Crust is not good.',
