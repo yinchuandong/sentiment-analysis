@@ -27,3 +27,4 @@ dist
 tmp-*
 .vector_cache
 .data
+.textcnn
