@@ -1,0 +1,26 @@
+# Python
+*.pyc
+
+# Jupyter
+.ipynb_checkpoints
+
+# IDE
+.vscode
+.idea
+*.wpr
+*.wpu
+.vs
+x64
+.swp
+
+# Temp
+build
+dist
+*.local
+
+# Visual Studio intermediate files
+*.exp
+*.iobj
+*.ipdb
+*.pdb
+.DS_Store
