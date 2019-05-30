@@ -28,3 +28,4 @@ tmp-*
 .vector_cache
 .data
 .textcnn
+.pytest_cache
