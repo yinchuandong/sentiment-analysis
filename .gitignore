@@ -24,3 +24,6 @@ dist
 *.ipdb
 *.pdb
 .DS_Store
+tmp-*
+.vector_cache
+.data
