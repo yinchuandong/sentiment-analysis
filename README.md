@@ -4,16 +4,17 @@
 ## Features
 - [x] rubixml
   - [x] TextCNN (PyTorch)
-  - [ ] spaCy
+  - [ ] spaCy (Residual TextCNN)
+  - [ ] BERT (Transformer)
 
 - [x] trainer
   - [ ] Analytics
   - [x] Train Model
   - [x] Docker
 
-- [ ] webapi
-  - [ ] Flask Server
-  - [ ] Docker
+- [x] webapi
+  - [x] Flask Server
+  - [x] Docker
 
 - [ ] UI
   - [ ] React-Redux
