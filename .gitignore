@@ -29,4 +29,6 @@ tmp-*
 .data
 .textcnn
 .pytest_cache
-*.pkl
+
+# trainer
+trainer/*.pkl
