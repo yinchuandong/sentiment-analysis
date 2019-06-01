@@ -13,7 +13,6 @@ from torchtext.data import (
     BucketIterator,
     Pipeline
 )
-import pandas as pd
 import numpy as np
 import json
 
@@ -29,10 +28,19 @@ from sklearn.metrics import (
 from ._network import TextCNN
 
 
-
 class TextCNNSentimentClassifier(object):
+    """ A typical convolutional neural network for text classification
+    Paper: https://arxiv.org/pdf/1408.5882.pdf
+    """
 
     def __init__(self, embed_dim, lr, dropout, use_gpu=False):
+        """
+        Args:
+            embed_dim: integer, the dimension of word embedding
+            lr: float, learning rate
+            dropout: float, probability of an element to be zeroed.
+            use_gpu: boolean, whether use GPU
+        """
         self.embed_dim = embed_dim
         self.lr = lr
         self.dropout = dropout
@@ -45,6 +53,15 @@ class TextCNNSentimentClassifier(object):
         return
 
     def _process_data(self, filepath, train_dev_ratio):
+        """ preprocess dataset
+
+        Args:
+            filepath: string, the path of dataset
+            train_dev_ratio: a float, the ratio to split train and dev dataset
+
+        Returns:
+            A tuple of torchtext.data.Dataset objects: (train, dev)
+        """
         train, dev = TabularDataset(
             path=filepath,
             format='csv',
@@ -68,6 +85,8 @@ class TextCNNSentimentClassifier(object):
         return train, dev
 
     def _build_network(self):
+        """ build specific TextCNN network
+        """
         vocab_size = len(self.text_field.vocab)
         if vocab_size == 0:
             raise Exception('Please call fit() function first!')
@@ -86,6 +105,20 @@ class TextCNNSentimentClassifier(object):
         return
 
     def fit(self, filepath, train_dev_ratio=0.8, batch_size=64, nepoch=10):
+        """ Feed training data to train the model
+
+        Args:
+            filepath: a string, the path of dataset
+            train_dev_ratio: a float, the ratio to split train and dev dataset
+            batch_size: a integer, the size of batch when training
+            nepoch: a integer, the number of training epochs
+
+        TODO:
+            1) support early stopping
+            2) support customized delimiter
+            3) support callback function
+            4) support fit_generator
+        """
         train, dev = self._process_data(filepath, train_dev_ratio)
 
         self.text_field.build_vocab(train, vectors="glove.6B.50d")
@@ -116,7 +149,7 @@ class TextCNNSentimentClassifier(object):
                 label_pred = (np.array(y_pred.data) > 0.5).astype(int)
                 label_true = np.array(target)
                 train_acc = accuracy_score(label_true, label_pred)
-                output_str = '\rEpoch: {} - Batch: {} - loss: {:.6f}  train acc: {:.2f}'
+                output_str = '\rEpoch:{} batch:{} loss:{:.6f} acc:{:.2f}'
                 sys.stdout.write(output_str.format(epoch,
                                                    i,
                                                    loss.item(),
@@ -131,6 +164,13 @@ class TextCNNSentimentClassifier(object):
         return
 
     def evaluate(self, dev_data):
+        """ evaluate the dev dataset
+        Args:
+            dev_data: torchtext.data.Iterator or torchtext.data.Dataset
+
+        Returns:
+            a tuple of (accuracy, precision, recall, f1_score)
+        """
         if isinstance(dev_data, Iterator):
             dev_iter = dev_data
         else:
@@ -149,11 +189,23 @@ class TextCNNSentimentClassifier(object):
             label_true += list(np.array(target))
 
         acc = accuracy_score(label_true, label_pred)
-        output_str = '\nEvaluation -  dev acc: {:.2f} \n'
-        print(output_str.format(acc))
-        return acc
+        p = precision_score(label_true, label_pred)
+        r = recall_score(label_true, label_pred)
+        f1 = f1_score(label_true, label_pred)
+        output_str = '\nEval - acc:{:.2f} p:{:.2f} r:{:.2f} f1:{:.2f} \n'
+        print(output_str.format(acc, p, r, f1))
+        return acc, p, r, f1
 
     def predict_prob(self, sentences=[]):
+        """ Predict the probability of the sentiment between 0 and 1
+
+        Args:
+            sentences: a list of strings, the sentences used to predict
+
+        Returns:
+            a list of floats, the predicted probability
+        """
+
         self.network.eval()
         sentences = [self.text_field.preprocess(sent) for sent in sentences]
         sentences = self.text_field.pad(sentences)
@@ -169,11 +221,26 @@ class TextCNNSentimentClassifier(object):
         y_pred = np.array(y_pred.data).reshape(-1)
         return y_pred
 
-    def predict(self, text):
+    def predict(self, sentences):
+        """ Predict the label of the sentiment: 0 or 1
 
-        return
+        Args:
+            sentences: a list of strings, the sentences used to predict
+
+        Returns:
+            a list of int
+        """
+        prob = self.predict_prob(sentences)
+        label = (prob > 0.5).astype(int)
+        return label
 
     def _save_weights(self, network, save_dir='.textcnn', save_prefix='best'):
+        """ save the weight of network
+        Args:
+            network: torch.nn.Module
+            save_dir: string, the path of weights directory
+            save_prefix: string, the prefix of weights filename
+        """
         if not os.path.isdir(save_dir):
             os.makedirs(save_dir)
         save_prefix = os.path.join(save_dir, save_prefix)
@@ -182,9 +249,13 @@ class TextCNNSentimentClassifier(object):
         return
 
     def use_best_model(self, save_dir='.textcnn', save_prefix='best'):
+        """ overwrite the current model weights with the best model weights
+
+        Args:
+            save_dir: string, the path of weights directory
+            save_prefix: string, the prefix of weights filename
+        """
         save_prefix = os.path.join(save_dir, save_prefix)
         save_path = '{}_network_weights.pt'.format(save_prefix)
         self.network.load_state_dict(torch.load(save_path))
         return
-
-

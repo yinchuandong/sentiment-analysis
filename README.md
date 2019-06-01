@@ -3,7 +3,7 @@
 
 ## Features
 - [x] rubixml
-  - [x] TextCNN (PyTorch)
+  - [x] TextCNN (PyTorch implementation from scratch)
   - [ ] spaCy (Residual TextCNN)
   - [ ] BERT (Transformer)
 
@@ -12,9 +12,12 @@
   - [x] Train Model
   - [x] Docker
 
-- [x] webapi
+- [x] webapi (Back-end)
   - [x] Flask Server
   - [x] Docker
 
-- [ ] UI
+- [ ] webapp (Front-end)
   - [ ] React-Redux
+
+- [ ] Pipeline
+  - [ ] buildkite

@@ -19,6 +19,7 @@ setup(name='rubixml',
           'torch',
           'torchtext',
           'numpy',
-          'sklearn'
+          'sklearn',
+          'pandas',
       ],
       zip_safe=True)

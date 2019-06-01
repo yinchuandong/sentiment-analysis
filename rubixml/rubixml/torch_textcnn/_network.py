@@ -6,16 +6,28 @@ import torchtext
 
 
 class TextCNN(nn.Module):
+    """ A typical convolutional neural network for text classification
+    Paper: https://arxiv.org/pdf/1408.5882.pdf
+    """
 
     def __init__(self,
                  vocab_size,
                  embed_dim,
                  class_num,
                  kernel_num,
-                 kernel_sizes,
-                 dropout,
+                 kernel_sizes=[3, 4, 5],
+                 dropout=0.5,
                  static=True):
         super(TextCNN, self).__init__()
+        """
+        Args:
+            vocab_size: integer, the number of unique words in corpus
+            embed_dim: integer, the dimension of word embedding
+            kernel_num: integer, the number of kernels in CNN
+            kernel_sizes: a list of integer, the types of kernels
+            dropout: float, probability of an element to be zeroed.
+            static: boolean, whether re-train the embedding layer
+        """
 
         self.class_num = class_num
         self.static = static
@@ -29,7 +41,7 @@ class TextCNN(nn.Module):
 
         self.embed = nn.Embedding(V, D)
         self.convs1 = nn.ModuleList([nn.Conv2d(Ci, Co, (K, D)) for K in Ks])
-        self.dropout = nn.Dropout(dropout)
+        self.dropout = nn.Dropprobability of an element to be zeroed. Default: 0.5out(dropout)
         self.fc1 = nn.Linear(len(Ks) * Co, C)
         return
 
@@ -51,4 +63,3 @@ class TextCNN(nn.Module):
         else:
             y_pred = torch.sigmoid(logit)
         return y_pred
-
