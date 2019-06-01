@@ -1,14 +1,18 @@
 # ML Library
 
+## Dependencies
+- Python >= 3.7
 
-## Features
-- [x] rubixml
+
+## Introduciton
+- [x] rubixml (A pip library)
   - [x] TextCNN (PyTorch implementation from scratch)
+  - [ ] RNN (LSTM/GRU cell)
   - [ ] spaCy (Residual TextCNN)
   - [ ] BERT (Transformer)
 
-- [x] trainer
-  - [ ] Analytics
+- [x] trainer (The main application to train models)
+  - [ ] Analytics (LDA + Word Cloud)
   - [x] Train Model
   - [x] Docker
 
