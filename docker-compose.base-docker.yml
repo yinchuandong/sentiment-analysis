@@ -1,0 +1,12 @@
+version: '3.4'
+
+services:
+  miniconda-torch:
+    image: "yinchuandong/miniconda-torch:${DOCKER_TAG:-latest}"
+    container_name: "miniconda-torch"
+    build:
+      context: .
+      dockerfile: ./base-docker/Dockerfile
+      labels:
+        - "build.number=${BUILD_NUMBER:-no-build-number}"
+        - "build.commit=${GIT_COMMIT_HASH:-no-commit-hash}"
