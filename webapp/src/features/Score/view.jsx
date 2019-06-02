@@ -15,22 +15,11 @@ class Score extends Component {
   };
 
   componentDidUpdate = () => {
-    //if users update the url,do score
-    const { hash, name, actions } = this.props;
-    if (name !== "" && name !== hash.substr(1)) {
-      actions.changeName(hash.substr(1));
-      actions.doScoreRequest(hash.substr(1));
-    }
+
   };
 
   componentDidMount() {
-    //do score when opening page first time
-    const { hash, actions } = this.props;
-    if (hash !== "") {
-      actions.changeName(hash.substr(1));
-      actions.resetScore();
-      actions.doScoreRequest(hash.substr(1));
-    }
+
   }
 
   handleSubmit = e => {
@@ -42,7 +31,6 @@ class Score extends Component {
         actions.changeName(values.name);
         actions.doScoreRequest(values.name);
       }
-      this.context.router.history.push("/score#" + values.name);
     });
   };
 
@@ -68,7 +56,7 @@ class Score extends Component {
           <Form.Item className="score-in">
             {getFieldDecorator("name", {
               rules: [
-                { required: true, message: "Please input your score test!" }
+                { required: true, message: "Please input your comments to test!" }
               ]
             })(<Input placeholder="score text" />)}
           </Form.Item>

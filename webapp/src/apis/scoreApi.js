@@ -1,6 +1,8 @@
 import http from '../utils/HttpUtil'
 
-const ScoreApi = {
+const predict = data => {
+  console.log(data)
+  return http.post('/textcnn/predict', data)
 }
 
-export default ScoreApi
+export default { predict }

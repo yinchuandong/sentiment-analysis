@@ -1,31 +1,30 @@
-import {
-    call, put, takeLatest, fork, select,
-  } from 'redux-saga/effects'
-  import * as Types from './actionType'
-  import Actions from './action'
-  import ScoreApi from '../../apis/scoreApi'
-  
-  export function* workDoScore({ payload }) {
-    const req = {
-      score: payload,
-    }
-    try {
-      console.log('saga: DO_SCORE api:', req)
-    //   const response = yield call(ScoreApi.doScore, req)// use asynchronous function 调用异步函数
-    //   if (response.data.code === 0) {
-        yield put(Actions.doScoreSuccess({score:0.73}))// like dispatch
-    //   } else {
-        // yield put(Actions.failure(response.data.message))
-    //   }
-    } catch (error) {
-      yield put(Actions.doScoreFailure(error))
-    }
+import { call, put, takeLatest, fork, select } from 'redux-saga/effects'
+import * as Types from './actionType'
+import Actions from './action'
+import ScoreApi from '../../apis/scoreApi'
+
+export function* workDoScore({ payload }) {
+  const req = {
+    text: [payload]
   }
-  
-  function* watchDoScore() {
-    console.log('watching DO_SDO_SCORE_REQUESTCORE')
-    yield takeLatest(Types.DO_SCORE_REQUEST, workDoScore)// listen action，if it dispatch "GETLIST_REQUEST",then trigger function "workGetlist"
+  try {
+    console.log('saga: DO_SCORE api:', req)
+    const response = yield call(ScoreApi.predict, req)
+    if (response.data.status === 'success') {
+      console.log(response.data.status)
+      yield put(Actions.doScoreSuccess({ score: response.data.score[0] })) // like dispatch
+    } else {
+      yield put(Actions.doScoreFailure(response.data.message))
+    }
+  } catch (error) {
+    console.log(error)
+    yield put(Actions.doScoreFailure(error))
   }
-  
-  export default [fork(watchDoScore)]// Non-blocking task invocation mechanism 非阻塞任务调用机制
-  
+}
+
+function* watchDoScore() {
+  console.log('watching DO_SDO_SCORE_REQUESTCORE')
+  yield takeLatest(Types.DO_SCORE_REQUEST, workDoScore)
+}
+
+export default [fork(watchDoScore)]

@@ -15,7 +15,7 @@
 
 - [x] trainer (The main application to train models)
   - [ ] Analytics (LDA + Word Cloud)
-  - [x] Train Model
+  - [x] Train model and predict the comments in test.txt
   - [x] Docker
 
 - [x] webapi (Back-end)
