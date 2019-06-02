@@ -41,7 +41,7 @@ class TextCNN(nn.Module):
 
         self.embed = nn.Embedding(V, D)
         self.convs1 = nn.ModuleList([nn.Conv2d(Ci, Co, (K, D)) for K in Ks])
-        self.dropout = nn.Dropprobability of an element to be zeroed. Default: 0.5out(dropout)
+        self.dropout = nn.Dropout(dropout)
         self.fc1 = nn.Linear(len(Ks) * Co, C)
         return
 

@@ -155,10 +155,12 @@ class TextCNNSentimentClassifier(object):
                                                    loss.item(),
                                                    train_acc))
 
-            dev_acc = self.evaluate(dev_iter)
+            dev_acc, dev_p, dev_r, dev_f1 = self.evaluate(dev_iter)
             if dev_acc > best_acc:
                 best_acc = dev_acc
-                print('Saving best model, acc: {:.4f}\n'.format(best_acc))
+                print('Saving best model:')
+                output_str = '\nBest - acc:{:.2f} p:{:.2f} r:{:.2f} f1:{:.2f} \n \n'
+                print(output_str.format(dev_acc, dev_p, dev_r, dev_f1))
                 self._save_weights(self.network)
 
         return
