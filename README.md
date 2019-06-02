@@ -56,6 +56,9 @@ A pip python library that includes machine learning models. The reason of creati
 ### available models
 - **TextCNN**
 
+### run unit test
+`cd ./sentiment-analysis/rubixml` & `pytest .`
+
 ### installation
 Run `cd ./sentiment-analysis/rubixml` & `pip install .`
 
