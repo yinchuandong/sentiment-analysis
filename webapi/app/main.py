@@ -1,5 +1,6 @@
 import os
 from flask import Flask, request, jsonify
+from flask_cors import *
 import dill
 import json
 import traceback
@@ -11,6 +12,7 @@ with open('{}/best_senti_model.pkl'.format(MODEL_DIR), 'rb') as f:
     model = dill.load(f)
 
 app = Flask(__name__)
+CORS(app, supports_credentials=True)
 
 
 @app.route('/api/textcnn/predict', methods=['POST'])
