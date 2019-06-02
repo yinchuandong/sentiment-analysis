@@ -1,0 +1,6 @@
+export const CHANGE_NAME = 'CHANGE_NAME'
+export const DO_SCORE_REQUEST = 'DO_SCORE_REQUEST'
+export const DO_SCORE_SUCCESS = 'DO_SCORE_SUCCESS'
+export const DO_SCORE_FAILURE = 'DO_SCORE_FAILURE'
+export const RESET_SCORE = 'RESET_SCORE'
+export default ''

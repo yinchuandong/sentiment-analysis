@@ -1,0 +1,45 @@
+@import "../../styles/common.import.less";
+
+.score-form.up {
+  transform: translateY(0);
+}
+
+.score-form {
+  transform: translateY(150px);
+  z-index: 99;
+  transition: all 0.5s;
+  padding-bottom: 0;
+  position: relative;
+
+  .score-in {
+    margin-bottom: 0;
+  }
+
+  .score-detail {
+    color: #222;
+    padding-left: 4px;
+
+    b {
+      color: #fd403e;
+    }
+  }
+
+  .btn-score {
+    float: right;
+
+    span {
+      color: #fff;
+      padding-left: 0;
+    }
+  }
+}
+
+.score-form::after {
+  content: "";
+  position: absolute;
+  width: 100%;
+  bottom: 1px;
+  left: 0;
+  height: 2px;
+  background-color: #f2f4f7;
+}
