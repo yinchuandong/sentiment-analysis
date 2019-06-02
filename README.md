@@ -1,4 +1,6 @@
 # ML Library
+1. [Dependencies](#dependencies)
+2. [Introduciton](#introduction)
 
 ## Dependencies
 - Python >= 3.7
@@ -25,3 +27,20 @@
 
 - [ ] Pipeline
   - [ ] buildkite
+
+
+## webapi
+
+- Endpoint
+``` HTTP
+POST /api/textcnn/predict
+```
+
+- Description:
+
+| name       | type            | description                    |
+| ---------- | ---------       | ------------------------------ |
+| text       | list of strings | the text to be predicted       |  
+
+- Example:
+![webapi1](./docs/imgs/webapi1.png)
