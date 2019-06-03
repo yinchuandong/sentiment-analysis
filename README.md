@@ -40,7 +40,7 @@
 ## quick run
 
 - **Clone repo**
- - Run `git clone git@github.com:yinchuandong/sentiment-analysis.git`
+  - Run `git clone git@github.com:yinchuandong/sentiment-analysis.git`
 
 - **Start [Flask Server](#webapi)**:
   - `cd ./sentiment-analysis`
