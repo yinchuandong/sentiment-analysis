@@ -1,64 +1,66 @@
-import React, { Component } from "react";
-import PropTypes from "prop-types";
-import { Form, Spin, Input, Button } from "antd";
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
+import { Form, Spin, Input, Button } from 'antd'
+import './view.less'
 
-import "./view.less";
+const { TextArea } = Input
 
 class Score extends Component {
   static defaultProps = {
-    name: "",
+    name: '',
     score: 0
-  };
+  }
 
   static contextTypes = {
     router: PropTypes.object.isRequired
-  };
-
-  componentDidUpdate = () => {
-
-  };
-
-  componentDidMount() {
-
   }
+
+  componentDidUpdate = () => {}
+
+  componentDidMount() {}
 
   handleSubmit = e => {
     //do score whenever click the button
-    const { name, actions } = this.props;
-    e.preventDefault();
+    const { name, actions } = this.props
+    e.preventDefault()
     this.props.form.validateFields((err, values) => {
       if (!err && name !== values.name) {
-        actions.changeName(values.name);
-        actions.doScoreRequest(values.name);
+        actions.changeName(values.name)
+        actions.doScoreRequest(values.name)
       }
-    });
-  };
+    })
+  }
 
   scoreDetail = (name, score) => {
-    if (name === "") {
-      return "Score yout text!";
+    if (name === '') {
+      return 'Score yout text!'
     } else {
       return (
         <span className="score-detail">
-          <span>your score is: <b>{score}</b></span>
+          <span>
+            your score is: <b>{score}</b>
+          </span>
         </span>
-      );
+      )
     }
-  };
+  }
 
   render() {
-    const { getFieldDecorator } = this.props.form;
-    const { name, score, processing } = this.props;
+    const { getFieldDecorator } = this.props.form
+    const { name, score, processing } = this.props
     return (
-      <div className={name === "" ? "score-form" : "score-form up"}>
+      <div className={name === '' ? 'score-form' : 'score-form up'}>
         <Spin size="large" spinning={processing} />
         <Form onSubmit={this.handleSubmit}>
           <Form.Item className="score-in">
-            {getFieldDecorator("name", {
+            {getFieldDecorator('name', {
               rules: [
-                { required: true, message: "Please input your comments to test!" }
+                {
+                  required: true,
+                  message: 'Please input your comments to test!'
+                }
               ]
-            })(<Input placeholder="score text" />)}
+            })(<TextArea rows={4} placeholder="Type your text here!" />)}
           </Form.Item>
           <Form.Item className="score-button">
             {this.scoreDetail(name, score)}
@@ -68,12 +70,12 @@ class Score extends Component {
           </Form.Item>
         </Form>
       </div>
-    );
+    )
   }
 }
 
 const ScoreForm = Form.create({
-  name: "normal_score",
+  name: 'normal_score',
   //keep the value in the input area the same as the url's hash 保持输入框里面的值跟url链接上的参数一致
   mapPropsToFields(props) {
     return {
@@ -81,13 +83,13 @@ const ScoreForm = Form.create({
         ...props.name,
         value: props.name
       })
-    };
+    }
   }
-})(Score);
+})(Score)
 
 Score.propTypes = {
   name: PropTypes.string,
   score: PropTypes.number
-};
+}
 
-export default ScoreForm;
+export default ScoreForm

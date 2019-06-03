@@ -97,3 +97,5 @@ A Python Flask Server (uWSGI + nginx) to host the well-trained machine learning 
 
 ## webapp
 A simple web page that allows user to type text on browser and show the prediction results.
+
+![webapp1](./docs/imgs/webapp1.png)
