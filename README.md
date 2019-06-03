@@ -129,16 +129,16 @@ A Python Flask Server (uWSGI + nginx) to host the well-trained machine learning 
 
 - **Request**
 
-| name       | type            | description                    |
-| ---------- | ---------       | ------------------------------ |
-| text       | list of strings | the text to be predicted       |  
+  | name       | type            | description                    |
+  | ---------- | ---------       | ------------------------------ |
+  | text       | list of strings | the text to be predicted       |  
 
 - **Response**
 
-| name       | type            | description                    |
-| ---------- | ---------       | ------------------------------ |
-| score      | list of floats  | the predicted scores between 0 to 1       |
-| status     | string          | indicate whether the request is successful |
+  | name       | type            | description                    |
+  | ---------- | ---------       | ------------------------------ |
+  | score      | list of floats  | the predicted scores between 0 to 1       |
+  | status     | string          | indicate whether the request is successful |
 
 
 - **Example**:
