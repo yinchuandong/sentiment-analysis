@@ -56,6 +56,7 @@
   - `./start-trainer`
   - visit `http://127.0.0.1:8888` in your browser. You will see a Jupyter notebook page.
   - **type the token** `abcd`
+  - **note: if the token is wrong, please shutdown your local jupyter notebook.**
 
 
 ## rubixml
