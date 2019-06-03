@@ -1,7 +1,7 @@
 # An End-to-end Deep Learning Workflow for Sentiment Analysis
 
 ## Dependencies
-** Prefer to run this repo via docker **
+**Prefer to run this repo via docker**
 - Python >= 3.7
 - Docker
 - Node.js >= v11.14.0 (For front-end webapp UI)
@@ -98,6 +98,8 @@ create a basic docker image which contains some necessary libraries, such as jup
 **Current Tag:** `v1.0.0`
 
 
+
+
 ## trainer
 The main application to analyse dataset and train models
 ![trainer-home](./docs/imgs/trainer-home.png)
@@ -113,6 +115,8 @@ The main application to analyse dataset and train models
   - predict scores based on the well-trained model using `./trainer/example_data/test.txt`
   - save the best model to file system for deployment
   ![](docs/imgs/trainer-textcnn-res.png)
+
+
 
 ## webapi
 A Python Flask Server (uWSGI + nginx) to host the well-trained machine learning models from **[trainer](#trainer)**. It provides public access to models via http requests. (BASE_URL=`http://127.0.0.1:5000/`)
@@ -139,6 +143,9 @@ A Python Flask Server (uWSGI + nginx) to host the well-trained machine learning 
 
 - **Example**:
 ![webapi1](./docs/imgs/webapi1.png)
+
+
+
 
 
 ## webapp
