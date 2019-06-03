@@ -1,4 +1,4 @@
-# ML Library
+# An End-to-end Deep Learning Workflow for Sentiment Analysis
 
 ## Dependencies
 ** Prefer to run this repo via docker **
@@ -8,29 +8,29 @@
 - npm >= 6.9.0 or yarn >= 1.15.2 (For front-end webapp UI)
 
 
-## Introduction
-- [x] rubixml (A pip library)
+## Overview
+- [x] **[rubixml](#rubixml)** (A pip library)
   - [x] TextCNN (PyTorch implementation from scratch)
   - [ ] RNN (LSTM/GRU cell)
   - [ ] spaCy (Residual TextCNN)
   - [ ] BERT (Transformer)
 
-- [x] base-docker
+- [x] **[base-docker](#base-docker)**
   - [x] Miniconda
   - [x] PyTorch
   - [x] Jupyter Notebook and Lab
   - [x] Docker
 
-- [x] trainer (The main application to train models)
+- [x] **[trainer](#trainer)** (The main application to train models)
   - [x] Analytics (LDA + Word Cloud)
   - [x] Train model and predict the comments in test.txt
   - [x] Docker
 
-- [x] webapi (Back-end)
+- [x] **[webapi](#webapi)** (Back-end)
   - [x] Flask Server
   - [x] Docker
 
-- [x] webapp (Front-end)
+- [x] **[webapp](#webapp)** (Front-end)
   - [x] React-Redux
 
 - [ ] Pipeline
@@ -39,15 +39,23 @@
 
 ## quick run
 
-- Start Flask Server:
+- **Start [Flask Server](#webapi)**:
   - `cd ./sentiment-analysis`
   - `./start-webapi`
+  - (optinal) request `http://127.0.0.1:5000/api/textcnn/predict`, prefer `postman`
 
-- Start UI:
+- **Start [Web UI](#webapp)**:
   - (optional) instal yarn (preferred) or npm
   - `cd ./sentiment-analysis/webapp`
   - `yarn install` or `npm install`
   - `yarn start` or `npm start`
+  - visit `http://127.0.0.1:3000` in your browser (prefer Chrome)
+
+- **(Optional) Start [Trainer](#trainer)**
+  - `cd ./sentiment-analysis`
+  - `./start-trainer`
+  - visit `http://127.0.0.1:8888` in your browser. You will see a Jupyter notebook page.
+  - **type the token** `abcd`
 
 
 ## rubixml
@@ -62,14 +70,52 @@ A pip python library that includes machine learning models. The reason of creati
 ### installation
 Run `cd ./sentiment-analysis/rubixml` & `pip install .`
 
+### usage
+```python
+# import model
+from rubixml.torch_textcnn import TextCNNSentimentClassifier
+
+# initialize model
+model = TextCNNSentimentClassifier(embed_dim=50, lr=0.001, dropout=0.5)
+model.fit('./example_data/train.txt', nepoch=1)
+
+# predict using the last model weights
+last_result = model.predict_prob(sentences)
+
+# reset model with the best model weights
+model.use_best_model()
+
+# predict the model using the best model weights
+best_result = model.predict_prob(sentences)
+```
+
+
+## base docker
+create a basic docker image which contains some necessary libraries, such as jupyter, pytorch, etc.
+
+**Link:** `https://hub.docker.com/r/yinchuandong/miniconda-torch/tags`
+
+**Current Tag:** `v1.0.0`
+
 
 ## trainer
 The main application to analyse dataset and train models
+![trainer-home](./docs/imgs/trainer-home.png)
 
+### analytics
+- **file:** `./trainer/analytics.ipynb`
+  - implement word cloud
+  - implement LDA
 
+### model training
+- **file:** `./trainer/train.ipynb`
+  - train TextCNN models using `./trainer/example_data/train.txt`
+  - predict scores based on the well-trained model using `./trainer/example_data/test.txt`
+  - save the best model to file system for deployment
+  ![](docs/imgs/trainer-textcnn-res.png)
 
 ## webapi
-A Python Flask Server (uWSGI + nginx) to host the well-trained machine learning models from **[trainer](#trainer)**. It provides public access to models via http requests.
+A Python Flask Server (uWSGI + nginx) to host the well-trained machine learning models from **[trainer](#trainer)**. It provides public access to models via http requests. (BASE_URL=`http://127.0.0.1:5000/`)
 
 ### TextCNN/predict
 - **Endpoint**
@@ -96,6 +142,5 @@ A Python Flask Server (uWSGI + nginx) to host the well-trained machine learning 
 
 
 ## webapp
-A simple web page that allows user to type text on browser and show the prediction results.
-
+A simple web page that allows user to type text on browser and show the prediction results. (BASE_URL=`http://127.0.0.1:3000/`)
 ![webapp1](./docs/imgs/webapp1.png)
